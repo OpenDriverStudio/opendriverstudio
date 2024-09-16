@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools >= 74.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "OpenDriverStudio"
+version = "0.1.0-dev"
+description = "A simple API for managing computer drivers"
+authors = [
+    {name="Rodrigo Luzuriaga", email="contact@opendriverstudio.com"}
+]
+license = { file = "LICENSE" }
+dependencies = [
+    # "fastapi",
+    # "pydantic",
+    # "uvicorn",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Framework :: FastAPI",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Natural Language :: English",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: SQL",
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+dev = [
+    "flake8",
+    "isort",
+    "mypy",
+    "pytest",
+    "ruff",
+]
+
+[project.urls]
+homepage = "https://github.com/OpenDriverStudio/opendriverstudio"
+repository = "https://github.com/OpenDriverStudio/opendriverstudio.git"
+issues = "https://github.com/OpenDriverStudio/opendriverstudio/issues"
+changelog = "https://github.com/OpenDriverStudio/opendriverstudio/blob/main/CHANGELOG.md"
+
+[tool.ruff]
+exclude = [
+    "__pycache__",
+    "__pypackages__",
+    "_build",
+    ".eggs",
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    ".vscode",
+    "build",
+    "dist",
+    "site-packages",
+    "venv",
+]
+indent-width = 4
+line-length = 120
+show-fixes = true
+
+[tool.ruff.lint]
+extend-select = [
+    "B",  # flake8-bugbear
+    "BLE",  # flake8-blind-except
+    "C4",  # flake8-comprehensions
+    "COM",  # flake8-commas
+    "E",  # pylint error
+    "FAST",  # FastAPI
+    "FBT",  # flake8-boolean-trap
+    "FLY",  # flynt
+    "G",  # flake8-logging-format
+    "I",  # isort
+    "INP",  # flake8-no-pep420
+    "ISC",  # flake8-implicit-str-concat
+    "LOG",  # flake8-logging
+    "N",  # pep8-naming
+    "PERF",  # perflintc
+    "PIE",  # flake8-pie
+    "PT",  # flake8-use-pathlib
+    "PYI",  # flake8-pyi
+    "Q",  # flake8-quotes
+    "RET",  # flake8-return
+    "RSE",  # flake8-raise
+    "RUF",  # Ruff-specific rules
+    "S",  # flake8-bandit
+    "SIM",  # flake8-simplify
+    "SLF",  # flake8-self
+    "TCH",  # flake8-type-checking
+    # "T20",  # flake8-printc
+]
+ignore = ["S101"]
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
