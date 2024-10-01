@@ -1,4 +1,6 @@
 import sqlite3
+from collections.abc import Generator
+from contextlib import contextmanager
 from pathlib import Path
 
 
@@ -38,6 +40,14 @@ class Database:
             connection.close()
         finally:
             del connection
+
+    @contextmanager
+    def _get_db_connection(self) -> Generator[sqlite3.Connection, None, None]:
+        connection = sqlite3.connect(self.db_file)
+        try:
+            yield connection
+        finally:
+            connection.close()
 
 
 class DatabaseCreationError(Exception):
