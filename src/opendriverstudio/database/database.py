@@ -2,6 +2,7 @@ import sqlite3
 from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
+from typing import Any
 
 
 DATABASE_PATH = Path(__file__).parent
@@ -49,6 +50,34 @@ class Database:
         finally:
             connection.close()
 
+    def insert_into_drivers_table(self, data: dict[str, Any]) -> None:
+        sql_query = """
+            INSERT INTO drivers (driver_name, driver_version, driver_path, driver_type)
+            VALUES (?, ?, ?, ?, ?)
+            """
+
+        sql_parameters = (data["driver_name"], data["driver_version"], data["driver_path"], data["driver_type"])
+
+        try:
+            with self._get_db_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(sql_query, sql_parameters)
+                conn.commit()
+        except (sqlite3.OperationalError, sqlite3.IntegrityError) as e:
+            raise DatabaseInsertionError(f"Error inserting data into table 'drivers': {e}") from e
+
+    def select_all_from_drivers_table(self) -> list:
+        sql_query = "SELECT * FROM drivers"
+
+        with self._get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(sql_query)
+            return cursor.fetchall()
+
 
 class DatabaseCreationError(Exception):
+    pass
+
+
+class DatabaseInsertionError(Exception):
     pass
