@@ -53,7 +53,7 @@ class Database:
     def insert_into_drivers_table(self, data: dict[str, Any]) -> None:
         sql_query = """
             INSERT INTO drivers (driver_name, driver_version, driver_path, driver_type)
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?)
             """
 
         sql_parameters = (data["driver_name"], data["driver_version"], data["driver_path"], data["driver_type"])
