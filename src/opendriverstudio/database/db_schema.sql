@@ -1,10 +1,9 @@
 CREATE TABLE IF NOT EXISTS drivers (
-    driver_id INTEGER NOT NULL,
+    driver_id INTEGER PRIMARY KEY,
     driver_name TEXT NOT NULL,
     driver_version TEXT NOT NULL,
     driver_path TEXT NOT NULL,
-    driver_type TEXT NOT NULL,
-    PRIMARY KEY (driver_id)
+    driver_type TEXT NOT NULL
 ) STRICT;
 
 CREATE TABLE IF NOT EXISTS drivers_upkeep (
