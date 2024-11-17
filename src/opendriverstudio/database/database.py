@@ -74,6 +74,15 @@ class Database:
             cursor.execute(sql_query)
             return cursor.fetchall()
 
+    def select_driver_id_from_drivers_with_driver_name(self, driver_name: str) -> int | None:
+        sql_query = "SELECT driver_id FROM drivers WHERE driver_name = ?"
+
+        with self._get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(sql_query, (driver_name,))
+            result = cursor.fetchone()
+            return result[0] if result else None
+
 
 class DatabaseCreationError(Exception):
     pass
