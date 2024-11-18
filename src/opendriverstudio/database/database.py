@@ -56,7 +56,10 @@ class Database:
             VALUES (?, ?, ?, ?)
             """
 
-        sql_parameters = (data["driver_name"], data["driver_version"], data["driver_path"], data["driver_type"])
+        try:
+            sql_parameters = (data["driver_name"], data["driver_version"], data["driver_path"], data["driver_type"])
+        except KeyError as e:
+            raise MissingFieldError(f"Missing field {e} from insert data.") from None
 
         try:
             with self._get_db_connection() as conn:
@@ -89,4 +92,8 @@ class DatabaseCreationError(Exception):
 
 
 class DatabaseInsertionError(Exception):
+    pass
+
+
+class MissingFieldError(DatabaseInsertionError):
     pass
