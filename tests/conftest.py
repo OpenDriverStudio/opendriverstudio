@@ -1,7 +1,6 @@
 import tempfile
 from collections.abc import Generator
 from pathlib import Path
-from typing import Any
 
 import pytest
 
@@ -12,7 +11,7 @@ TESTING_DB_FILE = Path(__file__).parent / "tests.db"
 
 WRONG_SYNTAX_SCHEMA = b"CREATE TABLE test (id INTEGER"  # Wrong syntax on purpose
 
-WORKING_DB_DATA = {
+WORKING_DB_DATA: dict[str, list[dict[str, str]]] = {
     "drivers": [
         {
             "driver_name": "SP142670",
@@ -29,7 +28,7 @@ WORKING_DB_DATA = {
     ],
 }
 
-BROKEN_DB_DATA = {
+BROKEN_DB_DATA: dict[str, dict[str, list[dict[str, str]]]] = {
     "MISSING_FIELD": {
         "drivers": [
             {
@@ -63,7 +62,7 @@ BROKEN_DB_DATA = {
 
 @pytest.fixture
 def empty_db_schema_file() -> Generator[Path, None, None]:
-    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    temp_file = tempfile.NamedTemporaryFile(delete=False)  # noqa: SIM115
     temp_file.close()  # Closing immediately to avoide locked file issues
 
     temp_file_path = Path(temp_file.name)
@@ -87,8 +86,8 @@ def create_working_database() -> Generator[Database, None, None]:
 
 
 @pytest.fixture
-def wrong_syntax_schema_file():
-    temp_file = tempfile.NamedTemporaryFile(delete=False)
+def wrong_syntax_schema_file() -> Generator[Path, None, None]:
+    temp_file = tempfile.NamedTemporaryFile(delete=False)  # noqa: SIM115
     temp_file.write(WRONG_SYNTAX_SCHEMA)
     temp_file.close()
 
@@ -101,12 +100,12 @@ def wrong_syntax_schema_file():
 
 
 @pytest.fixture
-def working_drivers_db_data() -> dict[str, list[dict[str, Any]]]:
+def working_drivers_db_data() -> list[dict[str, str]]:
     return WORKING_DB_DATA["drivers"]
 
 
 @pytest.fixture(params=["MISSING_FIELD"])
-def broken_drivers_db_data(request) -> dict[str, list[dict[str, Any]]] | dict:
+def broken_drivers_db_data(request) -> list[dict[str, str]]:
     return BROKEN_DB_DATA[request.param]["drivers"]
 
 
@@ -119,7 +118,9 @@ def select_all_drivers_db_data() -> list[tuple[int, str, str, str, str]]:
 
 
 @pytest.fixture
-def setup_database_with_working_data(create_working_database, working_drivers_db_data):
+def setup_database_with_working_data(
+    create_working_database, working_drivers_db_data
+) -> Generator[Database, None, None]:
     db: Database = create_working_database
 
     for driver in working_drivers_db_data:
