@@ -69,7 +69,7 @@ class Database:
         except (sqlite3.OperationalError, sqlite3.IntegrityError) as e:
             raise DatabaseInsertionError(f"Error inserting data into table 'drivers': {e}") from e
 
-    def select_all_from_drivers_table(self) -> list:
+    def select_all_from_drivers_table(self) -> list[tuple[int, str, str, str, str]]:
         sql_query = "SELECT * FROM drivers"
 
         with self._get_db_connection() as conn:
