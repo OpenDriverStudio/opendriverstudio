@@ -28,7 +28,9 @@ class TestDatabase:
             db.insert_into_drivers_table(driver)
 
     def test_database_insert_into_drivers_table_with_missing_field(
-        self, create_working_database, broken_drivers_db_data
+        self,
+        create_working_database,
+        broken_drivers_db_data,
     ) -> None:
         db: Database = create_working_database
 
@@ -37,7 +39,9 @@ class TestDatabase:
                 db.insert_into_drivers_table(driver)
 
     def test_database_select_all_from_drivers_table(
-        self, setup_database_with_working_data, select_all_drivers_db_data
+        self,
+        setup_database_with_working_data,
+        select_all_drivers_db_data,
     ) -> None:
         db: Database = setup_database_with_working_data
 
