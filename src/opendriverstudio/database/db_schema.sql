@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS drivers (
     driver_id INTEGER PRIMARY KEY,
-    driver_name TEXT NOT NULL,
+    driver_name TEXT NOT NULL UNIQUE,
     driver_version TEXT NOT NULL,
     driver_path TEXT NOT NULL,
     driver_type TEXT NOT NULL
