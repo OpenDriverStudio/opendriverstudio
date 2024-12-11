@@ -18,10 +18,10 @@ CREATE TABLE IF NOT EXISTS drivers_upkeep (
     CHECK (update_datetime GLOB '????-??-?? ??:??:??.???')  -- Check for ISO8601 pattern
 ) STRICT;
 
-CREATE TABLE IF NOT EXISTS machine (
+CREATE TABLE IF NOT EXISTS machines (
     machine_id TEXT NOT NULL,
     driver_id INTEGER NOT NULL,
-    machine_name TEXT NOT NULL,
+    machine_model TEXT NOT NULL,
     machine_manufacturer TEXT NOT NULL,
     PRIMARY KEY (machine_id),
     FOREIGN KEY (driver_id)
