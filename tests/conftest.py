@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from src.opendriverstudio.database.database import Database
-from typing_defs import DriverType, MachineType, WorkingDBDataType
+from typing_defs import BrokenDBDataType, BrokenDBDataTypeKey, DriverType, MachineType, WorkingDBDataType
 
 
 TESTING_DB_FILE = Path(__file__).parent / "tests.db"
@@ -43,7 +43,7 @@ WORKING_DB_DATA: WorkingDBDataType = {
     ],
 }
 
-BROKEN_DB_DATA: dict[str, dict[str, list[dict[str, str | int]]]] = {
+BROKEN_DB_DATA: BrokenDBDataType = {
     "MISSING_FIELD": {
         "drivers": [
             {
@@ -102,6 +102,28 @@ BROKEN_DB_DATA: dict[str, dict[str, list[dict[str, str | int]]]] = {
 
 
 @pytest.fixture
+def working_drivers_db_data() -> list[DriverType]:
+    return WORKING_DB_DATA["drivers"]
+
+
+@pytest.fixture
+def working_machines_db_data() -> list[MachineType]:
+    return WORKING_DB_DATA["machines"]
+
+
+@pytest.fixture(params=["MISSING_FIELD"])
+def broken_drivers_db_data(request: pytest.FixtureRequest) -> list[DriverType]:
+    param: BrokenDBDataTypeKey = request.param
+    return BROKEN_DB_DATA[param]["drivers"]
+
+
+@pytest.fixture(params=["MISSING_FIELD"])
+def broken_machines_db_data(request: pytest.FixtureRequest) -> list[MachineType]:
+    param: BrokenDBDataTypeKey = request.param
+    return BROKEN_DB_DATA[param]["machines"]
+
+
+@pytest.fixture
 def empty_db_schema_file() -> Generator[Path, None, None]:
     temp_file = tempfile.NamedTemporaryFile(delete=False)  # noqa: SIM115
     temp_file.close()  # Closing immediately to avoide locked file issues
@@ -138,26 +160,6 @@ def wrong_syntax_schema_file() -> Generator[Path, None, None]:
 
     if temp_file_path.exists():
         temp_file_path.unlink()
-
-
-@pytest.fixture
-def working_drivers_db_data() -> list[DriverType]:
-    return WORKING_DB_DATA["drivers"]
-
-
-@pytest.fixture
-def working_machines_db_data() -> list[MachineType]:
-    return WORKING_DB_DATA["machines"]
-
-
-@pytest.fixture(params=["MISSING_FIELD"])
-def broken_drivers_db_data(request) -> list[dict[str, str | int]]:
-    return BROKEN_DB_DATA[request.param]["drivers"]
-
-
-@pytest.fixture(params=["MISSING_FIELD"])
-def broken_machines_db_data(request) -> list[dict[str, str | int]]:
-    return BROKEN_DB_DATA[request.param]["machines"]
 
 
 @pytest.fixture
