@@ -167,10 +167,16 @@ def wrong_syntax_schema_file() -> Generator[Path, None, None]:
 
 
 @pytest.fixture
-def select_all_drivers_db_data() -> list[tuple[int, str, str, str, str]]:
+def testing_drivers_db_data() -> list[tuple[int, str, str, str, str]]:
     return [
-        (1, "SP142670", "3.00", "/path/to/driver", "driverpack"),
-        (2, "SP23456", "1.00", "/path/to/driver/2", "bios"),
+        (
+            id + 1,  # Generate driver_id starting from 1
+            driver["driver_name"],
+            driver["driver_version"],
+            driver["driver_path"],
+            driver["driver_type"],
+        )
+        for id, driver in enumerate(WORKING_DB_DATA["drivers"])
     ]
 
 
