@@ -113,12 +113,16 @@ def working_machines_db_data() -> list[MachineType]:
 
 @pytest.fixture(params=["MISSING_FIELD"])
 def broken_drivers_db_data(request: pytest.FixtureRequest) -> list[DriverType]:
+    # This param variable is created like this so that mypy doesn't complain.
+    # If you do `return BROKEN_DB_DATA[request.param]...` mypy complains that it expecter a literal string.
     param: BrokenDBDataTypeKey = request.param
     return BROKEN_DB_DATA[param]["drivers"]
 
 
 @pytest.fixture(params=["MISSING_FIELD"])
 def broken_machines_db_data(request: pytest.FixtureRequest) -> list[MachineType]:
+    # This param variable is created like this so that mypy doesn't complain.
+    # If you do `return BROKEN_DB_DATA[request.param]...` mypy complains that it expecter a literal string.
     param: BrokenDBDataTypeKey = request.param
     return BROKEN_DB_DATA[param]["machines"]
 
