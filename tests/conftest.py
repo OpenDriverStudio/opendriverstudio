@@ -181,7 +181,7 @@ def testing_drivers_db_data() -> list[tuple[int, str, str, str, str]]:
 
 
 @pytest.fixture
-def setup_database_with_working_data(
+def setup_database_with_working_drivers_data(
     create_working_database,
     working_drivers_db_data,
 ) -> Generator[Database, None, None]:

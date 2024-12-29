@@ -40,20 +40,23 @@ class TestDatabase:
 
     def test_database_select_all_from_drivers_table(
         self,
-        setup_database_with_working_data,
-        select_all_drivers_db_data,
+        setup_database_with_working_drivers_data,
+        testing_drivers_db_data,
     ) -> None:
-        db: Database = setup_database_with_working_data
+        db: Database = setup_database_with_working_drivers_data
 
         db_output = db.select_all_from_drivers_table()
 
-        assert db_output == select_all_drivers_db_data
+        assert db_output == testing_drivers_db_data
 
-    def test_database_select_driver_id_from_drivers_with_driver_name(self, setup_database_with_working_data) -> None:
-        db: Database = setup_database_with_working_data
+    def test_database_select_driver_id_from_drivers_with_driver_name(
+        self,
+        setup_database_with_working_drivers_data,
+    ) -> None:
+        db: Database = setup_database_with_working_drivers_data
 
-        db_output_1 = db.select_driver_id_from_drivers_with_driver_name("SP142670")
-        db_output_2 = db.select_driver_id_from_drivers_with_driver_name("SP23456")
+        db_output_1 = db.select_driver_id_from_drivers_with_driver_name("sp142670")
+        db_output_2 = db.select_driver_id_from_drivers_with_driver_name("sp154299")
 
         assert db_output_1 == 1
         assert db_output_2 == 2
