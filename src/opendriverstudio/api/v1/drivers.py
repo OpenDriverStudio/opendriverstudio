@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 
 from src.opendriverstudio.database.database import Database, DatabaseInsertionError
+from src.opendriverstudio.database.schema import Driver
 
 
 router = APIRouter()
@@ -30,17 +31,9 @@ async def get_driver_id_from_driver_name(
 @router.post("/drivers", responses={409: {"description": "Conflict: Database insertion error."}})
 async def add_driver(
     db: Annotated[Database, Depends(get_database)],
-    driver_name: str,
-    driver_version: str,
-    driver_path: str,
-    driver_type: str,
+    driver: Driver,
 ) -> dict[str, str]:
-    rows = {
-        "driver_name": driver_name,
-        "driver_version": driver_version,
-        "driver_path": driver_path,
-        "driver_type": driver_type,
-    }
+    rows = driver.model_dump()
 
     try:
         db.insert_into_drivers_table(rows)
