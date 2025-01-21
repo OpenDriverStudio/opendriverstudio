@@ -5,14 +5,14 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from src.opendriverstudio.api.v1 import drivers
-from src.opendriverstudio.database.database import Database
+from src.opendriverstudio.database.database import DriverDatabase
 from tests.conftest import TESTING_DB_FILE
 
 
-def override_get_database() -> Generator[Database, None, None]:
+def override_get_database() -> Generator[DriverDatabase, None, None]:
     database_file = TESTING_DB_FILE
 
-    db = Database(db_file=database_file)
+    db = DriverDatabase(db_file=database_file)
     yield db
 
     if database_file.exists():

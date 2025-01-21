@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from src.opendriverstudio.database.database import Database
+from src.opendriverstudio.database.database import DriverDatabase
 from tests.typing_defs import BrokenDBDataType, BrokenDBDataTypeKey, DriverType, MachineType, WorkingDBDataType
 
 
@@ -141,10 +141,10 @@ def empty_db_schema_file() -> Generator[Path, None, None]:
 
 
 @pytest.fixture
-def create_working_database() -> Generator[Database, None, None]:
+def create_working_database() -> Generator[DriverDatabase, None, None]:
     database_file = TESTING_DB_FILE
 
-    db = Database(db_file=TESTING_DB_FILE)
+    db = DriverDatabase(db_file=TESTING_DB_FILE)
 
     yield db
 
@@ -198,8 +198,8 @@ def testing_api_driver_db_data() -> list[list[int | str]]:
 def setup_database_with_working_drivers_data(
     create_working_database,
     working_drivers_db_data,
-) -> Generator[Database, None, None]:
-    db: Database = create_working_database
+) -> Generator[DriverDatabase, None, None]:
+    db: DriverDatabase = create_working_database
 
     for driver in working_drivers_db_data:
         db.insert_into_drivers_table(driver)

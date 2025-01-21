@@ -2,25 +2,25 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from src.opendriverstudio.database.database import Database, DatabaseInsertionError
+from src.opendriverstudio.database.database import DatabaseInsertionError, DriverDatabase
 from src.opendriverstudio.database.schema import Driver
 
 
 router = APIRouter()
 
 
-def get_database() -> Database:
-    return Database()
+def get_database() -> DriverDatabase:
+    return DriverDatabase()
 
 
 @router.get("/drivers")
-async def get_all_drivers(db: Annotated[Database, Depends(get_database)]) -> list[tuple[int, str, str, str, str]]:
+async def get_all_drivers(db: Annotated[DriverDatabase, Depends(get_database)]) -> list[tuple[int, str, str, str, str]]:
     return db.select_all_from_drivers_table()
 
 
 @router.get("/drivers/name={driver_name}")
 async def get_driver_id_from_driver_name(
-    db: Annotated[Database, Depends(get_database)],
+    db: Annotated[DriverDatabase, Depends(get_database)],
     driver_name: str,
 ) -> dict[str, int | None]:
     driver_id = db.select_driver_id_from_drivers_with_driver_name(driver_name)
@@ -30,7 +30,7 @@ async def get_driver_id_from_driver_name(
 
 @router.post("/drivers", responses={409: {"description": "Conflict: Database insertion error."}})
 async def add_driver(
-    db: Annotated[Database, Depends(get_database)],
+    db: Annotated[DriverDatabase, Depends(get_database)],
     driver: Driver,
 ) -> dict[str, str]:
     rows = driver.model_dump()
