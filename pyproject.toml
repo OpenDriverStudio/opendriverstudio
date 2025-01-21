@@ -36,6 +36,7 @@ dev = [
     "mypy",
     "pytest",
     "ruff",
+    "httpx",
 ]
 
 [project.urls]
@@ -92,7 +93,7 @@ extend-select = [
     "S",  # flake8-bandit
     "SIM",  # flake8-simplify
     "SLF",  # flake8-self
-    "TCH",  # flake8-type-checking
+    "TC",  # flake8-type-checking
     # "T20",  # flake8-printc
 ]
 ignore = ["S101"]
