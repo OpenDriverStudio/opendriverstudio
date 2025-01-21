@@ -52,6 +52,9 @@ class BaseDatabase:
 
 
 class DriverDatabase(BaseDatabase):
+    def __init__(self, db_file=DATABASE_FILE, db_schema=DATABASE_SCHEMA):
+        super().__init__(db_file, db_schema)
+
     def insert_into_drivers_table(self, data: dict[str, Any]) -> None:
         sql_query = """
             INSERT INTO drivers (driver_name, driver_version, driver_path, driver_type)
