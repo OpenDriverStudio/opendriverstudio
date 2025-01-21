@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from src.opendriverstudio.database.database import Database
-from typing_defs import BrokenDBDataType, BrokenDBDataTypeKey, DriverType, MachineType, WorkingDBDataType
+from tests.typing_defs import BrokenDBDataType, BrokenDBDataTypeKey, DriverType, MachineType, WorkingDBDataType
 
 
 TESTING_DB_FILE = Path(__file__).parent / "tests.db"
