@@ -181,6 +181,20 @@ def testing_drivers_db_data() -> list[tuple[int, str, str, str, str]]:
 
 
 @pytest.fixture
+def testing_api_driver_db_data() -> list[list[int | str]]:
+    return [
+        [
+            id + 1,  # Generate driver_id starting from 1
+            driver["driver_name"],
+            driver["driver_version"],
+            driver["driver_path"],
+            driver["driver_type"],
+        ]
+        for id, driver in enumerate(WORKING_DB_DATA["drivers"])
+    ]
+
+
+@pytest.fixture
 def setup_database_with_working_drivers_data(
     create_working_database,
     working_drivers_db_data,
