@@ -6,7 +6,7 @@ from src.opendriverstudio.database.database import DatabaseCreationError, Driver
 from tests.conftest import TESTING_DB_FILE
 
 
-class TestDatabase:
+class TestBaseDatabase:
     def test_database_schema_is_empty(self, empty_db_schema_file) -> None:
         with pytest.raises(DatabaseCreationError):
             DriverDatabase(db_file=TESTING_DB_FILE, db_schema=empty_db_schema_file)
@@ -21,6 +21,8 @@ class TestDatabase:
         with pytest.raises(DatabaseCreationError):
             DriverDatabase(db_file=TESTING_DB_FILE, db_schema=wrong_syntax_schema_file)
 
+
+class TestDriverDatabase:
     def test_database_insert_into_drivers_table(self, create_working_database, working_drivers_db_data) -> None:
         db: DriverDatabase = create_working_database
 
