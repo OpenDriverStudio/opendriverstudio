@@ -141,7 +141,7 @@ def empty_db_schema_file() -> Generator[Path, None, None]:
 
 
 @pytest.fixture
-def create_working_database() -> Generator[DriverDatabase, None, None]:
+def create_working_drivers_database() -> Generator[DriverDatabase, None, None]:
     database_file = TESTING_DB_FILE
 
     db = DriverDatabase(db_file=TESTING_DB_FILE)
@@ -196,10 +196,10 @@ def testing_api_driver_db_data() -> list[list[int | str]]:
 
 @pytest.fixture
 def setup_database_with_working_drivers_data(
-    create_working_database,
+    create_working_drivers_database,
     working_drivers_db_data,
 ) -> Generator[DriverDatabase, None, None]:
-    db: DriverDatabase = create_working_database
+    db: DriverDatabase = create_working_drivers_database
 
     for driver in working_drivers_db_data:
         db.insert_into_drivers_table(driver)

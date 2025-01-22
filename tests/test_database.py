@@ -11,8 +11,8 @@ class TestBaseDatabase:
         with pytest.raises(DatabaseCreationError):
             DriverDatabase(db_file=TESTING_DB_FILE, db_schema=empty_db_schema_file)
 
-    def test_database_is_created_successfully(self, create_working_database) -> None:
-        db: DriverDatabase = create_working_database
+    def test_database_is_created_successfully(self, create_working_drivers_database) -> None:
+        db: DriverDatabase = create_working_drivers_database
 
         assert Path.exists(db.db_file)
         assert Path(db.db_file).stat().st_size > 0
@@ -23,18 +23,18 @@ class TestBaseDatabase:
 
 
 class TestDriverDatabase:
-    def test_database_insert_into_drivers_table(self, create_working_database, working_drivers_db_data) -> None:
-        db: DriverDatabase = create_working_database
+    def test_database_insert_into_drivers_table(self, create_working_drivers_database, working_drivers_db_data) -> None:
+        db: DriverDatabase = create_working_drivers_database
 
         for driver in working_drivers_db_data:
             db.insert_into_drivers_table(driver)
 
     def test_database_insert_into_drivers_table_with_missing_field(
         self,
-        create_working_database,
+        create_working_drivers_database,
         broken_drivers_db_data,
     ) -> None:
-        db: DriverDatabase = create_working_database
+        db: DriverDatabase = create_working_drivers_database
 
         for driver in broken_drivers_db_data:
             with pytest.raises(MissingFieldError):
