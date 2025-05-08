@@ -10,7 +10,7 @@ DATABASE_FILE = DATABASE_PATH / "opendriverstudio.db"
 DATABASE_SCHEMA = DATABASE_PATH / "db_schema.sql"
 
 
-class BaseDatabase:
+class Database:
     def __init__(self, db_file: Path = DATABASE_FILE, db_schema: Path = DATABASE_SCHEMA) -> None:
         self.db_file = db_file
         self.db_schema = db_schema
@@ -49,11 +49,6 @@ class BaseDatabase:
             yield connection
         finally:
             connection.close()
-
-
-class DriverDatabase(BaseDatabase):
-    def __init__(self, db_file=DATABASE_FILE, db_schema=DATABASE_SCHEMA):
-        super().__init__(db_file, db_schema)
 
     def insert_into_drivers_table(self, data: dict[str, Any]) -> None:
         sql_query = """
